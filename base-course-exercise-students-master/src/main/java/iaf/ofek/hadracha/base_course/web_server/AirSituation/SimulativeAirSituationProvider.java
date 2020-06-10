@@ -22,10 +22,10 @@ public class SimulativeAirSituationProvider implements AirSituationProvider {
     private static final double CHANCE_FOR_AZIMUTH_CHANGE = 0.05;
     private static final int STEP_SIZE = 15;
     private static final int SIMULATION_INTERVAL_MILLIS = 100;
-    private double LAT_MIN = 29.000;
-    private double LAT_MAX = 36.000;
-    private double LON_MIN = 32.000;
-    private double LON_MAX = 46.500;
+    private static final double LAT_MIN = 29.000;
+    private static final double LAT_MAX = 36.000;
+    private static final double LON_MIN = 32.000;
+    private static final double LON_MAX = 46.500;
     private static final double AZIMUTH_STEP = STEP_SIZE / (2000.0 / SIMULATION_INTERVAL_MILLIS);
     private static final int STARTER_PLANE_NUMBER = 80;
     private static final int MINIMUM_DISTANCE_RELEASE_PLANE = 500;
