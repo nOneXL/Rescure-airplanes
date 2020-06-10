@@ -32,7 +32,6 @@ public class EjectionsImporter {
     public String NAMESPACE;
 
 
-
     private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
     private final RestTemplate restTemplate;
     private final CrudDataBase dataBase;
@@ -56,15 +55,15 @@ public class EjectionsImporter {
                     });
             ejectionsFromServer = responseEntity.getBody();
             if (ejectionsFromServer != null) {
-                for(EjectedPilotInfo ejectedPilotInfo: ejectionsFromServer) {
+                for (EjectedPilotInfo ejectedPilotInfo : ejectionsFromServer) {
                     ejectedPilotInfo.getCoordinates().lat += SHIFT_NORTH;
                 }
             }
             List<EjectedPilotInfo> updatedEjections = ejectionsFromServer;
             List<EjectedPilotInfo> previousEjections = dataBase.getAllOfType(EjectedPilotInfo.class);
 
-            List<EjectedPilotInfo> addedEjections = ejectionsToAdd(updatedEjections, previousEjections);
-            List<EjectedPilotInfo> removedEjections = ejectionsToRemove(updatedEjections, previousEjections);
+            List<EjectedPilotInfo> addedEjections = ejectionsListDifference(updatedEjections, previousEjections);
+            List<EjectedPilotInfo> removedEjections = ejectionsListDifference(previousEjections, updatedEjections);
 
             addedEjections.forEach(dataBase::create);
             removedEjections.stream().map(EjectedPilotInfo::getId).forEach(id -> dataBase.delete(id, EjectedPilotInfo.class));
@@ -74,11 +73,7 @@ public class EjectionsImporter {
         }
     }
 
-    private List<EjectedPilotInfo> ejectionsToRemove(List<EjectedPilotInfo> updatedEjections, List<EjectedPilotInfo> previousEjections) {
-        return listOperations.subtract(previousEjections, updatedEjections, new Entity.ByIdEqualizer<>());
-    }
-
-    private List<EjectedPilotInfo> ejectionsToAdd(List<EjectedPilotInfo> updatedEjections, List<EjectedPilotInfo> previousEjections) {
-        return listOperations.subtract(updatedEjections, previousEjections, new Entity.ByIdEqualizer<>());
+    private List<EjectedPilotInfo> ejectionsListDifference(List<EjectedPilotInfo> mainEjections, List<EjectedPilotInfo> toRemoveEjections) {
+        return listOperations.subtract(mainEjections, toRemoveEjections, new Entity.ByIdEqualizer<>());
     }
 }
