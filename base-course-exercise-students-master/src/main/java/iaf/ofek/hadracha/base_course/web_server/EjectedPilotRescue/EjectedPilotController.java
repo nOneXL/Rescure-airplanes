@@ -1,9 +1,9 @@
 package iaf.ofek.hadracha.base_course.web_server.EjectedPilotRescue;
 
 import iaf.ofek.hadracha.base_course.web_server.Data.CrudDataBase;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -12,6 +12,12 @@ import java.util.List;
 public class EjectedPilotController {
     private final CrudDataBase dataBase;
 
+    @Value("${ejections.namespace}")
+    public String NAMESPACE;
+
+    @Autowired
+    AirplanesAllocationManager airplanesAllocationManager;
+
     public EjectedPilotController(CrudDataBase dataBase) {
         this.dataBase = dataBase;
     }
@@ -19,5 +25,16 @@ public class EjectedPilotController {
     @GetMapping("/infos")
     public List<EjectedPilotInfo> getEjectedPilot() {
         return this.dataBase.getAllOfType(EjectedPilotInfo.class);
+    }
+
+    @GetMapping("/takeResponsibility")
+    public void sendRescuePilotsToEjectedPilot(@RequestParam("ejectionId")Integer ejectionId) {
+        EjectedPilotInfo ejectedPilot = this.dataBase.getByID(ejectionId, EjectedPilotInfo.class);
+
+        if (ejectedPilot.rescuedBy == null) {
+            ejectedPilot.rescuedBy = NAMESPACE;
+            dataBase.update(ejectedPilot);
+            airplanesAllocationManager.allocateAirplanesForEjection(ejectedPilot, NAMESPACE);
+        }
     }
 }
