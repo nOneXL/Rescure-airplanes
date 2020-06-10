@@ -11,14 +11,38 @@ public class EjectedPilotInfo implements Entity<EjectedPilotInfo> {
     private int id;
     private List<AllocatedAirplane> allocatedAirplanes = new ArrayList<>();
 
-    public Coordinates coordinates;
+    private Coordinates coordinates;
 
-    public String pilotName;
+    private String pilotName;
 
     /**
      * The rescue manager's client id, or null if non.
      */
-    public String rescuedBy;
+    private String rescuedBy;
+
+    public Coordinates getCoordinates() {
+        return this.coordinates;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public String getPilotName() {
+        return this.pilotName;
+    }
+
+    public void setPilotName(String pilotName) {
+        this.pilotName = pilotName;
+    }
+
+    public String getRescuedBy() {
+        return this.rescuedBy;
+    }
+
+    public void setRescuedBy(String rescuedBy) {
+        this.rescuedBy = rescuedBy;
+    }
 
     @Override
     public int getId() {
