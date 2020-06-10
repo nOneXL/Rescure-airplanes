@@ -57,7 +57,7 @@ public class EjectionsImporter {
             ejectionsFromServer = responseEntity.getBody();
             if (ejectionsFromServer != null) {
                 for(EjectedPilotInfo ejectedPilotInfo: ejectionsFromServer) {
-                    ejectedPilotInfo.coordinates.lat += SHIFT_NORTH;
+                    ejectedPilotInfo.getCoordinates().lat += SHIFT_NORTH;
                 }
             }
             List<EjectedPilotInfo> updatedEjections = ejectionsFromServer;

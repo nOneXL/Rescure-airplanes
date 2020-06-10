@@ -31,8 +31,8 @@ public class EjectedPilotController {
     public void sendRescuePilotsToEjectedPilots(@RequestParam("ejectionId")Integer ejectionId) {
         EjectedPilotInfo ejectedPilot = this.dataBase.getByID(ejectionId, EjectedPilotInfo.class);
 
-        if (ejectedPilot.rescuedBy == null) {
-            ejectedPilot.rescuedBy = NAMESPACE;
+        if (ejectedPilot.getRescuedBy() == null) {
+            ejectedPilot.setRescuedBy(NAMESPACE);
             dataBase.update(ejectedPilot);
             airplanesAllocationManager.allocateAirplanesForEjection(ejectedPilot, NAMESPACE);
         }
