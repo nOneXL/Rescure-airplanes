@@ -1,0 +1,56 @@
+.leaflet-container {
+	background: black;
+	outline: 0;
+	}
+
+.airplane-icon{
+	background: none;
+}
+
+.airplane-icon div {
+    height: 35px;
+    width: 35px;
+    background-size: contain;
+	background-repeat: no-repeat;
+	transform-origin: 50% 50%;
+}
+
+.airplane-icon p {
+	color: darkgray;
+	text-shadow: 0px 0px 5px black;
+	margin: 0px;
+	font-size: x-small;
+	opacity: 0.7;
+}
+
+.launch-icon img {
+	height: 32px;
+	width: 32px;
+}
+
+button {
+	padding: 10px;
+	border-radius: 5px;
+	border-style: solid;
+	border-color: #aaa;
+	background: linear-gradient(
+				#a0a0a0 0%,
+				#cacaca 10%, 
+				#ccc 15% , 
+				#bbb 15%, 
+				#ddd 85%, 
+				#c0c0c0 85%,
+				#bbb 90%, 
+				#ccc 100%);
+}
+.active-button {
+	background: linear-gradient(
+				#a8a8b0 0%,
+				#d0d0ba 10%, 
+				#d0d0bb 15% , 
+				#d0d0cc 15%, 
+				#e0e0cc 85%, 
+				#c8c8b0 85%,
+				#e0e0aa 90%, 
+				#d0d0bb 100%);
+}

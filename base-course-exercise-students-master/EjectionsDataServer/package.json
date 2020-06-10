@@ -1,0 +1,20 @@
+{
+  "name": "ejections-data-server",
+  "version": "1.0.0",
+  "description": "A server and web app that is used for creating pilot-ejection-data for Ofek Base Course",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alon Kashtan",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.0",
+    "@types/node": "^12.6.8"
+  }
+}

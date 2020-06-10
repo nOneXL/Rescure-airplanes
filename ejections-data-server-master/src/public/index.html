@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>יצירת ידיעות נטישה</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" media="screen" href="./main.css" />
+  </head>
+  <body>
+    <div id="main">
+      <div id="title">
+        <h1>מערכת יצירת ידיעות נטישה</h1>
+      </div>
+      <div id="nameSpace-input"><center><input type="text" id="name"  placeholder="שם"/></center></div>
+      <center>
+      <div class="lable">בחר מיקום:</div>
+    </center>
+      <div class="areas">
+        <center>
+        <button id="createLebanon" class="area-button">דרום לבנון</button>
+        <button id="createSyria" class="area-button">דרום סוריה</button>
+        <button id="createIraq" class="area-button">עיראק</button>
+      </br>
+       <button id="clear" class="clear">מחק הכל</button></center>
+      </div>
+      <center><div class="result hidden"></div></center>
+    </div>
+    <script src="./jquery/dist/jquery.js"></script>
+    <script>
+      let isWhileCreating = false;
+
+      function sendRequest(kind) {
+        isWhileCreating = true;
+        let name = $("#name").val();
+        fetch("/" + kind + "?name=" + name)
+          .then((res) => {
+            isWhileCreating = false;
+            if (res.status < 299) {
+              reportSuccess();
+            } else if (res.status < 500) {
+              reportFailure(reportFailure.BAD_REQUEST, res.body);
+            } else {
+              reportFailure(reportFailure.SERVER_ERROR);
+            }
+          })
+          .catch((reason) => {
+            isWhileCreating = false;
+            reportFailure(reportFailure.SERVER_UNREACHABLE);
+          });
+      }
+
+      function reportSuccess() {
+        $(".result")
+          .removeClass("hidden")
+          .addClass("success")
+          .html("Created Successfully");
+        setInterval(() => {
+          $(".result").addClass("hidden");
+        }, 3500);
+      }
+      function reportFailure(reason, text) {
+        let textToDisplay;
+        switch (reason) {
+          case reportFailure.BAD_REQUEST:
+            "Could not create: " + text;
+            break;
+          case reportFailure.SERVER_ERROR:
+            "Could not create: server error";
+            break;
+          case reportFailure.SERVER_UNREACHABLE:
+            "Could not reach server";
+            break;
+          default:
+            throw "reportFailure called with unknown reason";
+        }
+
+        $(".result")
+          .removeClass("hidden")
+          .addClass("failure")
+          .html("Something went worng...");
+        setInterval(() => {
+          $(".result").addClass("hidden");
+        }, 3500);
+      }
+      reportFailure.BAD_REQUEST = "400";
+      reportFailure.SERVER_ERROR = "500";
+      reportFailure.SERVER_UNREACHABLE = "000";
+
+      $("#createLebanon").click(() => sendRequest("lebanon"));
+      $("#createSyria").click(() => sendRequest("syria"));
+      $("#createIraq").click(() => sendRequest("iraq"));
+      $("#clear").click(() => sendRequest("clear"));
+    </script>
+  </body>
+</html>

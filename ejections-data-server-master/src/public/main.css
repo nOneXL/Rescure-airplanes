@@ -1,0 +1,82 @@
+body {
+  padding: 10px 30px;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: lightblue;
+}
+div {
+  padding: 5px;
+}
+
+#main {
+  background-color: snow;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin: auto;
+  width: 30%;
+  margin-top: 2cm;
+  height: 55%;
+}
+
+#title {
+  margin-top: -4.5px;
+  margin-left: -6px;
+  margin-right: -6px; 
+  text-align: center;
+  color: snow;
+  background: royalblue;
+  padding-top: 1px;
+  height: 80px;
+}
+
+
+#nameSpace-input {
+  top: 1cm;
+}
+
+#clear {
+}
+
+.hidden {
+  display: none;
+}
+
+.horizontalStack {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 10px;
+  width: 200px;
+}
+
+.area-button {
+  width: 200px;
+}
+
+.area-button :hover{
+  width: 200px;
+  color: green;
+}
+
+
+#name {
+  width: 190px;
+}
+
+.result {
+  opacity: 0.5;
+  margin-top: 20px;
+  font-size: small;
+  direction: ltr;
+  width: 200px;
+  border: 1px solid;
+}
+
+.failure {
+  border-color: darkred;
+  font-size: 12px;
+  background-color: lightcoral;
+}
+
+.success {
+  border-color: darkgreen;
+  background-color: lightgreen;
+}

@@ -1,0 +1,37 @@
+body{
+    padding: 10px 30px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+div {
+    padding: 5px;
+}
+.hidden{
+    display: none;
+}
+
+.horizontalStack {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 10px;
+    width: 200px;
+}
+
+.result {
+    opacity: 0.5;
+    margin-top: 20px;
+    font-size: small;
+    direction: ltr;
+    width: 200px;
+    border: 1px solid;
+}
+
+.failure {
+    border-color: darkred;
+    font-size: darkred;
+    background-color: lightcoral;
+}
+
+.success {
+    border-color: darkgreen;
+    background-color: lightgreen;
+}
