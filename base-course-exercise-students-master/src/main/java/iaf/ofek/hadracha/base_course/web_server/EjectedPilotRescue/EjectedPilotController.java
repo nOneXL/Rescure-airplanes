@@ -23,12 +23,12 @@ public class EjectedPilotController {
     }
 
     @GetMapping("/infos")
-    public List<EjectedPilotInfo> getEjectedPilot() {
+    public List<EjectedPilotInfo> getEjectedPilots() {
         return this.dataBase.getAllOfType(EjectedPilotInfo.class);
     }
 
     @GetMapping("/takeResponsibility")
-    public void sendRescuePilotsToEjectedPilot(@RequestParam("ejectionId")Integer ejectionId) {
+    public void sendRescuePilotsToEjectedPilots(@RequestParam("ejectionId")Integer ejectionId) {
         EjectedPilotInfo ejectedPilot = this.dataBase.getByID(ejectionId, EjectedPilotInfo.class);
 
         if (ejectedPilot.rescuedBy == null) {
