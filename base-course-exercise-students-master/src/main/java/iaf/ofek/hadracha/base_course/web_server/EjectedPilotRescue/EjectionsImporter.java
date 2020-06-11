@@ -48,7 +48,6 @@ public class EjectionsImporter {
 
     private void updateEjections() {
         try {
-//
             List<EjectedPilotInfo> updatedEjections = getUpdatedEjectionsFromServer();
 
             List<EjectedPilotInfo> previousEjections = getPreviousEjections();
@@ -57,7 +56,6 @@ public class EjectionsImporter {
 
             removeOldEjections(updatedEjections, previousEjections);
 
-//
         } catch (RestClientException e) {
             System.err.println("Could not get ejections: " + e.getMessage());
             e.printStackTrace();
