@@ -12,9 +12,6 @@ import java.util.List;
 public class EjectedPilotController {
     private final CrudDataBase dataBase;
 
-    @Value("${ejections.namespace}")
-    public String NAMESPACE;
-
     @Autowired
     AirplanesAllocationManager airplanesAllocationManager;
 
@@ -28,13 +25,14 @@ public class EjectedPilotController {
     }
 
     @GetMapping("/takeResponsibility")
-    public void sendRescuePilotsToEjectedPilots(@RequestParam("ejectionId")Integer ejectionId) {
+    public void sendRescuePilotsToEjectedPilots(@RequestParam("ejectionId") Integer ejectionId,
+                                                @CookieValue(value = "client-id", defaultValue = "") String clientId) {
         EjectedPilotInfo ejectedPilot = this.dataBase.getByID(ejectionId, EjectedPilotInfo.class);
 
         if (ejectedPilot.getRescuedBy() == null) {
-            ejectedPilot.setRescuedBy(NAMESPACE);
+            ejectedPilot.setRescuedBy(clientId);
             dataBase.update(ejectedPilot);
-            airplanesAllocationManager.allocateAirplanesForEjection(ejectedPilot, NAMESPACE);
+            airplanesAllocationManager.allocateAirplanesForEjection(ejectedPilot, clientId);
         }
     }
 }

@@ -61,10 +61,10 @@ public class SimulativeAirSituationProvider implements AirSituationProvider {
     private void randomPlaneGenerator() {
         AirplaneKind kind = airplaneKinds.get(random.nextInt(airplaneKinds.size()));
         Airplane airplane = new Airplane(kind, lastId++);
-        airplane.coordinates=new Coordinates(randomGenerators.generateRandomDoubleInRange(LAT_MIN, LAT_MAX),
+        airplane.coordinates = new Coordinates(randomGenerators.generateRandomDoubleInRange(LAT_MIN, LAT_MAX),
                 randomGenerators.generateRandomDoubleInRangeWithNormalDistribution(LON_MIN, LON_MAX));
-        airplane.setAzimuth(randomGenerators.generateRandomDoubleInRange(0,360));
-        airplane.velocity = randomGenerators.generateRandomDoubleInRange(40, 70)*airplane.getAirplaneKind().getVelocityFactor();
+        airplane.setAzimuth(randomGenerators.generateRandomDoubleInRange(0, 360));
+        airplane.velocity = randomGenerators.generateRandomDoubleInRange(40, 70) * airplane.getAirplaneKind().getVelocityFactor();
         airplanes.add(airplane);
     }
 
@@ -95,8 +95,7 @@ public class SimulativeAirSituationProvider implements AirSituationProvider {
                     randomPlaneGenerator();
                 }
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.err.println("Error while updating air situation picture" + e.getMessage());
             e.printStackTrace();
         }
@@ -112,12 +111,11 @@ public class SimulativeAirSituationProvider implements AirSituationProvider {
             }
 
             double azimuthToDestenation = geographicCalculations.azimuthBetween(currLocation, headingTo);
-            double differnceOfAzimuth = 180-geographicCalculations.normalizeAzimuth(azimuthToDestenation - airplane.getAzimuth());
+            double differnceOfAzimuth = 180 - geographicCalculations.normalizeAzimuth(azimuthToDestenation - airplane.getAzimuth());
 
-            return (differnceOfAzimuth > 0 ? Math.min(AZIMUTH_STEP*10, differnceOfAzimuth/5) : Math.max(-AZIMUTH_STEP*10, differnceOfAzimuth/5))/2;
+            return (differnceOfAzimuth > 0 ? Math.min(AZIMUTH_STEP * 10, differnceOfAzimuth / 5) : Math.max(-AZIMUTH_STEP * 10, differnceOfAzimuth / 5)) / 2;
 
-        }
-        else {
+        } else {
             if (random.nextDouble() < CHANCE_FOR_AZIMUTH_CHANGE)       // chance for any change
                 if (random.nextDouble() < CHANCE_FOR_AZIMUTH_CHANGE)   // chance for big change
                     return randomGenerators.generateRandomDoubleInRange(-AZIMUTH_STEP, AZIMUTH_STEP);
@@ -142,7 +140,7 @@ public class SimulativeAirSituationProvider implements AirSituationProvider {
 
     @Override
     public List<Airplane> getAllAirplanes() {
-        synchronized (lock){
+        synchronized (lock) {
             return new ArrayList<>(airplanes);
         }
     }

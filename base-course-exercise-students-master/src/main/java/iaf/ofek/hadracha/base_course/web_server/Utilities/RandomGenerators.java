@@ -7,11 +7,12 @@ import java.util.Random;
 @Service
 public class RandomGenerators {
     private Random random = new Random();
+
     /**
      * Generate a double between min (inclusive) and max (exclusive).
      */
     public double generateRandomDoubleInRange(double min, double max) {
-        if (min>max){
+        if (min > max) {
             double temp = min;
             min = max;
             max = temp;
@@ -42,11 +43,11 @@ public class RandomGenerators {
         // Total: 2*2*2 = 8
         double num = baseNumber * (max - min) / 8;
         // Move mean to mid-range
-        num+= (max + min) / 2;
+        num += (max + min) / 2;
 
         // All the results outside the limits will be moved to the limit
-        num = Math.max(min+0.1, num);
-        num = Math.min(max-0.1, num);
+        num = Math.max(min + 0.1, num);
+        num = Math.min(max - 0.1, num);
 
         return num;
     }

@@ -23,11 +23,12 @@ public class AirplanesAllocationManager {
 
     /**
      * Finds the airplanes that should be allocated to an ejected-pilot-rescue mission
-     * @param ejectedPilotInfo the mission details
+     *
+     * @param ejectedPilotInfo   the mission details
      * @param controllerClientId client ID of the (human) controller that is responsible for the mission, to be filled
      *                           on the airplane.
      */
-    void allocateAirplanesForEjection(EjectedPilotInfo ejectedPilotInfo, String controllerClientId){
+    void allocateAirplanesForEjection(EjectedPilotInfo ejectedPilotInfo, String controllerClientId) {
 
         // The current algorithm - find the closest available airplane of each kind
 
@@ -50,7 +51,7 @@ public class AirplanesAllocationManager {
                 });
 
         closestAirplanes.values().forEach(closestAirplane -> {
-            if (closestAirplane.closestAirplane!=null) {
+            if (closestAirplane.closestAirplane != null) {
                 ejectedPilotInfo.allocateAirplane(closestAirplane.closestAirplane, controllerClientId);
             }
         });

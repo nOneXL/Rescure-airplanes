@@ -23,7 +23,7 @@ public class LaunchesRestController {
     }
 
     @GetMapping
-    public @NotNull List<Launch> getLaunches(){
+    public @NotNull List<Launch> getLaunches() {
         return dataBase.getAllOfType(Launch.class);
     }
 
@@ -58,7 +58,7 @@ public class LaunchesRestController {
         }
 
         Launch launch = dataBase.getByID(id, Launch.class);
-        if (launch==null)
+        if (launch == null)
             throw new UserArgumentException("No launch with this ID exists");
 
         launchLat.ifPresent(lat -> launch.launchPoint.lat = lat);

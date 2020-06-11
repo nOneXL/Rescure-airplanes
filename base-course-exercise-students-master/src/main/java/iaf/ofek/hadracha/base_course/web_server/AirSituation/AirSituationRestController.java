@@ -13,12 +13,12 @@ public class AirSituationRestController {
 
     private AirSituationProvider airSituationProvider;
 
-    public AirSituationRestController( @Autowired AirSituationProvider airSituationProvider) {
+    public AirSituationRestController(@Autowired AirSituationProvider airSituationProvider) {
         this.airSituationProvider = airSituationProvider;
     }
 
     @GetMapping
-    public List<Airplane> getAirSituation(){
+    public List<Airplane> getAirSituation() {
         return airSituationProvider.getAllAirplanes();
     }
 }

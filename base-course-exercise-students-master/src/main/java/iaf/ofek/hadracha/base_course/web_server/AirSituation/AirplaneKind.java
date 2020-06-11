@@ -11,8 +11,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public enum AirplaneKind{
-    Krav(null,"קרב", 10.0), F15(Krav, "F15"), F16(Krav, "F16"),
+public enum AirplaneKind {
+    Krav(null, "קרב", 10.0), F15(Krav, "F15"), F16(Krav, "F16"),
     Katmam(null, "כטמ\"מ", 1.75), Zik(Katmam, "זיק"), Shoval(Katmam, "שובל"),
     Helicopter(null, "מסוק", 3.0), Maskar(Helicopter, "מסק\"ר"), Masaar(Helicopter, "מסע\"ר "),
     Yanshoof(Masaar, "ינשוף"), Saraf(Maskar, "שרף");
@@ -22,7 +22,7 @@ public enum AirplaneKind{
     private final String displayName;
     private final double velocityFactor;
 
-    AirplaneKind(AirplaneKind parent, String displayName){
+    AirplaneKind(AirplaneKind parent, String displayName) {
         this(parent, displayName, null);
     }
 
@@ -59,9 +59,10 @@ public enum AirplaneKind{
 
     /**
      * Returns all the airplane kinds that are not parents of any other kind.
+     *
      * @return A list of airplane kinds that are leaves.
      */
-    public static List<AirplaneKind> LeafKinds(){
+    public static List<AirplaneKind> LeafKinds() {
         if (leaves == null) {
             Map<AirplaneKind, Set<AirplaneKind>> children = new HashMap<>();
             Arrays.stream(values()).forEach(airplaneKind -> {

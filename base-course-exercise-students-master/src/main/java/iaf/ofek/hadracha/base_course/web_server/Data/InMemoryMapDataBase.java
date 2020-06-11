@@ -13,36 +13,36 @@ import java.util.stream.Collectors;
 @Service
 public class InMemoryMapDataBase implements CrudDataBase {
 
-    private Map<Class,Map<Integer, Entity>> data = new HashMap<>();
-    private int id=1;
+    private Map<Class, Map<Integer, Entity>> data = new HashMap<>();
+    private int id = 1;
 
     @Override
     public <T extends Entity> @Nullable T getByID(int id, Class<T> type) throws ClassCastException {
         Map<Integer, T> typeData = (Map<Integer, T>) data.get(type);
-        T entity = typeData!=null?(T) typeData.get(id):null;
-        return entity!=null? (T) entity.clone() : null;
+        T entity = typeData != null ? (T) typeData.get(id) : null;
+        return entity != null ? (T) entity.clone() : null;
     }
 
     @Override
     public @NotNull <T extends Entity> List<T> getAllOfType(Class<T> type) {
         if (!data.containsKey(type)) return new ArrayList<>();
-        return data.get(type).values().stream().map(o -> (T)o.clone()).collect(Collectors.toList());
+        return data.get(type).values().stream().map(o -> (T) o.clone()).collect(Collectors.toList());
     }
 
     @Override
     public <T extends Entity> int create(T entity) throws IllegalArgumentException {
-        if (entity.getId()<=0) {
+        if (entity.getId() <= 0) {
             int newId = id++;
             entity.setId(newId);
         }
 
         Class<? extends Entity> type = entity.getClass();
 
-        if(!data.containsKey(type)){
-            data.put(type,new HashMap<>());
+        if (!data.containsKey(type)) {
+            data.put(type, new HashMap<>());
         }
 
-        if(data.get(type).containsKey(entity.getId()))
+        if (data.get(type).containsKey(entity.getId()))
             throw new IllegalArgumentException("Entity of type " + type + " and ID " + entity.getId() + " already exists");
 
         data.get(type).put(entity.getId(), entity.clone());
@@ -61,7 +61,7 @@ public class InMemoryMapDataBase implements CrudDataBase {
     }
 
     @Override
-    public <T extends Entity>  void delete(int id, Class<T> type) throws IllegalArgumentException {
+    public <T extends Entity> void delete(int id, Class<T> type) throws IllegalArgumentException {
 
         if (!data.containsKey(type) || !data.get(type).containsKey(id))
             throw new IllegalArgumentException("No entity of this type with this ID exists. Desired entity: " +

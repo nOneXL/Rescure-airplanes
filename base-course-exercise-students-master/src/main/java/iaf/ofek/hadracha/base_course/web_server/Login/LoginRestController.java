@@ -13,16 +13,16 @@ import java.util.UUID;
 @RequestMapping("/login")
 public class LoginRestController {
     @GetMapping("")
-    public LoginDetails login(HttpServletResponse response, @CookieValue(value = "client-id", defaultValue = "") String clientId){
+    public LoginDetails login(HttpServletResponse response, @CookieValue(value = "client-id", defaultValue = "") String clientId) {
         if (clientId.isEmpty()) {
             clientId = UUID.randomUUID().toString();
             response.addCookie(new Cookie("client-id", clientId));
         }
-        System.out.println("Client [" + clientId + "] has logged on" );
+        System.out.println("Client [" + clientId + "] has logged on");
         return new LoginDetails(clientId);
     }
 
-    private class LoginDetails{
+    private class LoginDetails {
         public String clientId;
 
         public LoginDetails(String clientId) {
