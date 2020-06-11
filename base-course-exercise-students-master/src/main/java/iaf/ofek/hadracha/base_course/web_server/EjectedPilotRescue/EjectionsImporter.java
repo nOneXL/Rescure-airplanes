@@ -64,7 +64,6 @@ public class EjectionsImporter {
 
     private List<EjectedPilotInfo> getUpdatedEjectionsFromServer() {
         List<EjectedPilotInfo> updatedEjections;
-        //     List<EjectedPilotInfo> ejectionsFromServer;
         ResponseEntity<List<EjectedPilotInfo>> responseEntity = restTemplate.exchange(
                 EJECTION_SERVER_URL + "/ejections?name=" + NAMESPACE, HttpMethod.GET,
                 null, new ParameterizedTypeReference<List<EjectedPilotInfo>>() {
