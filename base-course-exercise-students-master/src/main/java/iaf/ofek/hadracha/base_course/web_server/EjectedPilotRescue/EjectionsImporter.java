@@ -48,29 +48,51 @@ public class EjectionsImporter {
 
     private void updateEjections() {
         try {
-            List<EjectedPilotInfo> ejectionsFromServer;
-            ResponseEntity<List<EjectedPilotInfo>> responseEntity = restTemplate.exchange(
-                    EJECTION_SERVER_URL + "/ejections?name=" + NAMESPACE, HttpMethod.GET,
-                    null, new ParameterizedTypeReference<List<EjectedPilotInfo>>() {
-                    });
-            ejectionsFromServer = responseEntity.getBody();
-            if (ejectionsFromServer != null) {
-                for (EjectedPilotInfo ejectedPilotInfo : ejectionsFromServer) {
-                    ejectedPilotInfo.getCoordinates().lat += SHIFT_NORTH;
-                }
-            }
-            List<EjectedPilotInfo> updatedEjections = ejectionsFromServer;
-            List<EjectedPilotInfo> previousEjections = dataBase.getAllOfType(EjectedPilotInfo.class);
+//
+            List<EjectedPilotInfo> updatedEjections = getUpdatedEjectionsFromServer();
 
-            List<EjectedPilotInfo> addedEjections = ejectionsListDifference(updatedEjections, previousEjections);
-            List<EjectedPilotInfo> removedEjections = ejectionsListDifference(previousEjections, updatedEjections);
+            List<EjectedPilotInfo> previousEjections = getPreviousEjections();
 
-            addedEjections.forEach(dataBase::create);
-            removedEjections.stream().map(EjectedPilotInfo::getId).forEach(id -> dataBase.delete(id, EjectedPilotInfo.class));
+            addNewEjections(updatedEjections, previousEjections);
+
+            removeOldEjections(updatedEjections, previousEjections);
+
+//
         } catch (RestClientException e) {
             System.err.println("Could not get ejections: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private List<EjectedPilotInfo> getUpdatedEjectionsFromServer() {
+        List<EjectedPilotInfo> updatedEjections;
+        //     List<EjectedPilotInfo> ejectionsFromServer;
+        ResponseEntity<List<EjectedPilotInfo>> responseEntity = restTemplate.exchange(
+                EJECTION_SERVER_URL + "/ejections?name=" + NAMESPACE, HttpMethod.GET,
+                null, new ParameterizedTypeReference<List<EjectedPilotInfo>>() {
+                });
+        updatedEjections = responseEntity.getBody();
+        if (updatedEjections != null) {
+            for (EjectedPilotInfo ejectedPilotInfo : updatedEjections) {
+                ejectedPilotInfo.getCoordinates().lat += SHIFT_NORTH;
+            }
+        }
+        return updatedEjections;
+    }
+
+    private List<EjectedPilotInfo> getPreviousEjections() {
+        List<EjectedPilotInfo> previousEjections = dataBase.getAllOfType(EjectedPilotInfo.class);
+        return previousEjections;
+    }
+
+    private void addNewEjections(List<EjectedPilotInfo> updatedEjections, List<EjectedPilotInfo> previousEjections) {
+        List<EjectedPilotInfo> addedEjections = ejectionsListDifference(updatedEjections, previousEjections);
+        addedEjections.forEach(dataBase::create);
+    }
+
+    private void removeOldEjections(List<EjectedPilotInfo> updatedEjections, List<EjectedPilotInfo> previousEjections) {
+        List<EjectedPilotInfo> removedEjections = ejectionsListDifference(previousEjections, updatedEjections);
+        removedEjections.stream().map(EjectedPilotInfo::getId).forEach(id -> dataBase.delete(id, EjectedPilotInfo.class));
     }
 
     private List<EjectedPilotInfo> ejectionsListDifference(List<EjectedPilotInfo> mainEjections, List<EjectedPilotInfo> toRemoveEjections) {
