@@ -13,7 +13,7 @@ public class EjectedPilotController {
     private final CrudDataBase dataBase;
 
     @Autowired
-    AirplanesAllocationManager airplanesAllocationManager;
+    private AirplanesAllocationManager airplanesAllocationManager;
 
     public EjectedPilotController(CrudDataBase dataBase) {
         this.dataBase = dataBase;
@@ -25,8 +25,8 @@ public class EjectedPilotController {
     }
 
     @GetMapping("/takeResponsibility")
-    public void sendRescuePilotsToEjectedPilots(@RequestParam("ejectionId") Integer ejectionId,
-                                                @CookieValue(value = "client-id", defaultValue = "") String clientId) {
+    public void sendRescuePilotsToEjectedPilot(@RequestParam("ejectionId")Integer ejectionId,
+                                               @CookieValue(value = "client-id", defaultValue = "") String clientId) {
         EjectedPilotInfo ejectedPilot = this.dataBase.getByID(ejectionId, EjectedPilotInfo.class);
 
         if (ejectedPilot.getRescuedBy() == null) {
